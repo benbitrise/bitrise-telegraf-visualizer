@@ -67,9 +67,11 @@ toolkit:
 
 
 inputs:
-  - telegraf_file: $BITRISE_DEPLOY_DIR/telegraf_metrics.out
+  - telegraf_file: telegraf_metrics.out
     opts:
       title: "Telegraf output"
+      summary: "Telegraf output file"
+      description: "Telegraf output file"
       is_expand: true
       is_required: true
 
