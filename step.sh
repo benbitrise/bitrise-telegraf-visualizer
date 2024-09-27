@@ -1,6 +1,11 @@
 #!/bin/bash
 set -ex
 
+
+pyenv install 3.12.2
+pyenv local 3.12.2
+
+
 pip install pandas matplotlib mpld3 plotly
 
 python visualize.py $telegraf_file
