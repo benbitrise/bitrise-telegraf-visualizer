@@ -9,7 +9,7 @@ pyenv local 3.12.2
 
 pip install pandas matplotlib mpld3 plotly
 
-python ./visualize.py $telegraf_file
+python $BITRISE_STEP_SOURCE_DIR/visualize.py $telegraf_file
 
 mkdir -p $BITRISE_HTML_REPORT_DIR/telegraf_viz/
 
