@@ -1,10 +1,11 @@
 #!/bin/bash
 set -ex
 
+ls -al
 
 pyenv install 3.12.2
 pyenv local 3.12.2
-ls
+
 
 pip install pandas matplotlib mpld3 plotly
 
