@@ -69,6 +69,7 @@ toolkit:
 inputs:
   - telegraf_file: telegraf_metrics.out
     opts:
+      category: Inputs
       title: "Telegraf output"
       summary: "Telegraf output file"
       description: "Telegraf output file"
