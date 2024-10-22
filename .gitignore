@@ -3,3 +3,6 @@
 .vscode
 README.md.backup
 _tmp/
+cpu_metrics.out
+mem_metrics.out
+resource_usage_chart.html
