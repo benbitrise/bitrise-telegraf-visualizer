@@ -3,14 +3,17 @@ import plotly.graph_objects as go
 import sys
 from datetime import datetime
 
-def parse_telegraf_output(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+def parse_telegraf_output(file_dir):
+    with open(file_dir + "/cpu_metrics.out", 'r') as file:
+        cpu_lines = file.readlines()
+
+    with open(file_dir + "/mem_metrics.out", 'r') as file2:
+        mem_lines = file2.readlines()
 
     cpu_data = {'timestamp': [], 'cpu': [], 'usage_user': []}
     mem_data = {'timestamp': [], 'used_percent': []}
 
-    for line in lines:
+    for line in cpu_lines:
         parts = line.split()
         if line.startswith('cpu'):
             cpu_metrics = parts[1].split(',')
@@ -29,13 +32,14 @@ def parse_telegraf_output(file_path):
                     print(cpu_metrics)
                     print(metrics)
                     print(cpu_entry + " - " + str(cpu_usage_entry) + " - " + str(timestamp))
-        elif line.startswith('mem'):
+    for line in mem_lines:
+        parts = line.split()
+        if line.startswith('mem'):
             mem_metrics = parts[1].split(',')
             timestamp = int(parts[-1]) / 1e9  # Convert nanoseconds to seconds
             human_readable_time = datetime.utcfromtimestamp(timestamp)
 
             metrics = {metric.split('=')[0]: float(metric.split('=')[1].strip('i')) for metric in mem_metrics}
-
             mem_data['timestamp'].append(human_readable_time)
             mem_data['used_percent'].append(metrics.get('used_percent', 0))
 
@@ -106,7 +110,7 @@ def create_mem_chart(df):
     return fig
 
 def main(file_path):
-    cpu_df, mem_df = parse_telegraf_output(file_path)
+    cpu_df, mem_df = parse_telegraf_output(file_dir)
 
     cpu_fig = create_cpu_chart(cpu_df)
     mem_fig = create_mem_chart(mem_df)
@@ -135,8 +139,8 @@ def main(file_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python telegraf_to_chart.py <path_to_telegraf_output_file>")
+        print("Usage: python telegraf_to_chart.py <path_to_telegraf_output_dir>")
         sys.exit(1)
 
-    file_path = sys.argv[1]
-    main(file_path)
+    file_dir = sys.argv[1]
+    main(file_dir)
